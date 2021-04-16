@@ -1,6 +1,7 @@
 import os
 import tushare as ts
 import pandas as pd
+import lib.config as cf
 
 """
 conda info --envs or conda env list
@@ -19,17 +20,14 @@ git remote set-head origin -a
 
 def get_tushare_token():
     # tushare_token = os.environ.get('TUSHARE_TOKEN')
-    tushare_token = '27160235153db4e7a6cf445eb4cc43db0e91df057db5c056f5f57e11'
+    tushare_token = cf.get_tushare_token()
     if tushare_token is not None:
         return tushare_token
     else:
         return ""
 
 
-print(get_tushare_token())
-
-
-# print(os.environ["PYTHONPATH"])
+print(os.environ["PYTHON_CONFIG_PATH"])
 # print(os.environ["PYTHONHOME"])
 
 def get_stock_code():
@@ -38,6 +36,8 @@ def get_stock_code():
     data = pro.stock_basic(exchange='', list_status='L', fields='ts_code,symbol,name,area,industry,list_date')
     print(type(data))
     symbols = data['symbol'].values
+    # symbols = data.values[1]
+    # print(data.values[1])
     return symbols
 
 
@@ -47,5 +47,8 @@ def show_symbols():
         print(i)
 
 
-show_symbols()
+# show_symbols()
 # print(get_stock_code())
+if __name__ == '__main__':
+    print(get_tushare_token())
+    show_symbols()
