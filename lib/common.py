@@ -28,17 +28,30 @@ def get_tushare_token():
 
 
 print(os.environ["PYTHON_CONFIG_PATH"])
+
+
 # print(os.environ["PYTHONHOME"])
 
 def get_stock_code():
-    ts.set_token(get_tushare_token())
-    pro = ts.pro_api()
+    pro = get_tushare_pro_api()
     data = pro.stock_basic(exchange='', list_status='L', fields='ts_code,symbol,name,area,industry,list_date')
     print(type(data))
     symbols = data['symbol'].values
-    # symbols = data.values[1]
+    # symbols = data.values[1] 二维数组取股票代码应该是 data.values[i][1] i为有多少行
     # print(data.values[1])
     return symbols
+
+
+def get_tushare_pro_api():
+    ts.set_token(get_tushare_token())
+    pro = ts.pro_api()
+    return pro
+
+
+def get_stock_daily(stock_codes_str, start_date, end_date):
+    pro = get_tushare_pro_api()
+    df = pro.daily(ts_code=stock_codes_str, start_date=start_date, end_date=end_date)
+    pd.DataFrame(df)
 
 
 def show_symbols():
