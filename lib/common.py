@@ -48,10 +48,10 @@ def get_tushare_pro_api():
     return pro
 
 
-def get_stock_daily(stock_codes_str, start_date, end_date):
+def get_stock_daily(stock_codes_str, start_date, end_date) -> pd.DataFrame:
     pro = get_tushare_pro_api()
-    df = pro.daily(ts_code=stock_codes_str, start_date=start_date, end_date=end_date)
-    pd.DataFrame(df)
+    df: pd.DataFrame = pro.daily(ts_code=stock_codes_str, start_date=start_date, end_date=end_date)
+    return df
 
 
 def show_symbols():
