@@ -2,7 +2,7 @@ import os
 import tushare as ts
 import pandas as pd
 import lib.config as cf
-import datetime
+import lib.date_util as date_util
 
 """
 conda info --envs or conda env list
@@ -37,10 +37,10 @@ def get_stock_code():
     pro = get_tushare_pro_api()
     data = pro.stock_basic(exchange='', list_status='L', fields='ts_code,symbol,name,area,industry,list_date')
     print(type(data))
-    symbols = data['symbol'].values
+    ts_codes = data['ts_code'].values
     # symbols = data.values[1] 二维数组取股票代码应该是 data.values[i][1] i为有多少行
     # print(data.values[1])
-    return symbols
+    return ts_codes
 
 
 def get_tushare_pro_api():
@@ -55,14 +55,25 @@ def get_stock_daily(stock_codes_str, start_date, end_date) -> pd.DataFrame:
     return df
 
 
-def show_symbols():
+def show_ts_codes():
     symbols = get_stock_code()
     for i in symbols:
         print(i)
+
+
+def show_daily():
+    symbols = get_stock_code()
+    start_date = date_util.get_date_before(2)
+    end_date = date_util.get_current_date_str()
+    df: DataFrame = get_stock_daily('600276.SH', start_date, end_date)
+    print(df['vol'])
+    for symbol in symbols:
+        pass
 
 
 # show_symbols()
 # print(get_stock_code())
 if __name__ == '__main__':
     print(get_tushare_token())
-    show_symbols()
+    show_ts_codes()
+    show_daily()
