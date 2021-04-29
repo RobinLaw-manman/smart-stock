@@ -65,7 +65,7 @@ def show_daily():
     symbols = get_stock_code()
     start_date = date_util.get_date_before(2)
     end_date = date_util.get_current_date_str()
-    df: DataFrame = get_stock_daily('600276.SH', start_date, end_date)
+    df: pd.DataFrame = get_stock_daily('600276.SH', start_date, end_date)
     print(df['vol'])
     for symbol in symbols:
         pass
